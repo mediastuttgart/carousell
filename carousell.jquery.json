@@ -1,0 +1,22 @@
+{
+    "name": "Carousell",
+    "version": "0.1.0",
+    "title": "Carousell",
+    "description": "A simple javascript plugin for creating a touch based carousel.",
+    "keywords": [
+        "typewriter",
+        "text",
+        "effect"
+    ],
+    "author": {
+        "name": "Michael Alexander Freund",
+        "url": "http://mediastuttgart.com"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://www.opensource.org/licenses/mit-license.php"
+        }
+    ],
+    "homepage": "https://github.com/mediastuttgart/carousell/"
+}

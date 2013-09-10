@@ -1,0 +1,56 @@
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	padding: 20px;
+	font: 18px/32px 'Helvetica Neue', 'Helvetica', sans-serif;
+	background: #EEEEEE;
+}
+
+div.carousel,
+div.carousel ul,
+div.carousel li {
+
+	padding: 0;
+	margin: 0;
+	position: relative;
+}
+
+div.carousel ul,
+div.carousel li {
+
+	list-style: none;
+}
+
+div.carousel {
+
+	overflow: hidden;
+	width: 350px;
+	-webkit-backface-visibility: hidden;
+	-webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+	-webkit-transform-style: preserve-3d;
+}
+
+div.carousel ul {
+
+	position: relative;
+	overflow: hidden;
+	transform: translate3d(0%, 0, 0) scale3d(1, 1, 1);
+	-o-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1);
+	-ms-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1);
+	-moz-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1);
+	-webkit-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1);
+	-webkit-backface-visibility: hidden;
+	-webkit-transform-style: preserve-3d;
+}
+
+div.carousel li {
+
+	float: left;
+	cursor: move;
+	overflow: hidden;
+	-webkit-transform-style: preserve-3d;
+	-webkit-transform: translate3d(0, 0, 0);
+}

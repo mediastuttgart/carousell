@@ -1,0 +1,26 @@
+{
+    "name": "Carousell",
+    "description": "A simple javascript plugin for creating a touch based carousel.",
+    "version": "0.1.0",
+    "author": {
+        "name": "Michael Alexander Freund",
+        "url": "http://mediastuttgart.com"
+    },
+    "license": {
+        "type": "MIT License",
+        "url": "http://www.opensource.org/licenses/mit-license.php"
+    },
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/mediastuttgart/carousell.git"
+    },
+    "devDependencies": {
+        "grunt": "~0.4",
+        "grunt-git": "~0.1",
+        "grunt-contrib-clean": "~0.4",
+        "grunt-contrib-jshint": "~0.1",
+        "grunt-contrib-copy": "~0.4",
+        "grunt-contrib-concat": "~0.1",
+        "grunt-contrib-uglify": "~0.2"
+    }
+}

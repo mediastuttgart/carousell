@@ -1,0 +1,12 @@
+{
+    "name": "Carousell",
+    "version": "0.1.0",
+    "description": "A simple javascript plugin for creating a touch based carousel.",
+    "main": "dist/carousell.min.js",
+    "dependencies": {
+	    "greensock-js": "~1.10",
+        "eventEmitter": "~4.2",
+	    "eventie": "~1.0",
+        "hammerjs": "~1.0"
+    }
+}
