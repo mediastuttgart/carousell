@@ -2,8 +2,6 @@
 
 A simple javascript plugin for creating a touch based carousel.
 
-[mediastuttgart.github.io/typeright](http://mediastuttgart.github.io/carousell)
-
 ## Latest version
 
 0.1.0
