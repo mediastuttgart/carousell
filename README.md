@@ -12,8 +12,8 @@ A simple javascript plugin for creating a touch based carousel.
 
 Get a packaged source file:
 
-+ [carousell.pkgd.js](https://raw.github.com/mediastuttgart/carousell/v0.1.0/dist/carousell.pkgd.js)
-+ [carousell.pkgd.min.js](https://raw.github.com/mediastuttgart/carousell/v0.1.0/dist/carousell.pkgd.min.js)
++ [carousell.pkgd.js](https://raw.github.com/mediastuttgart/carousell/master/dist/carousell.pkgd.js)
++ [carousell.pkgd.min.js](https://raw.github.com/mediastuttgart/carousell/master/dist/carousell.pkgd.min.js)
 
 Or install via [Bower](http://bower.io):
 
@@ -52,23 +52,6 @@ Then run grunt to build Carousell:
 
 ``` bash
 grunt
-```
-
-The built version of Carousell will be put in the `dist/` subdirectory, along with the minified copy and packaged version including dependencies.
-
-## RequireJS
-
-Carousell works with RequireJS.
-
-1. Install Carousell and its dependencies
-2. Update your [RequireJS paths config](http://requirejs.org/docs/api.html#config-paths) so it can find those modules
-
-``` js
-requirejs.config({
-    paths: {
-        "eventEmitter": "vendor/eventEmitter"
-    }
-});
 ```
 
 ## MIT License
