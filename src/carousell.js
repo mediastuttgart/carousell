@@ -99,13 +99,13 @@ function defineCarousell (EventEmitter) {
 		}
 
 		for (var i = 0, elementLength = _this.elements.length; i < elementLength; i++) {
-			var element = this.elements[i].getElementsByTagName('ul')[0] || this.elements[i].getElementsByTagName('ol')[0];
+			var _element = this.elements[i].getElementsByTagName('ul')[0] || this.elements[i].getElementsByTagName('ol')[0];
 
-			if (element === undefined) {
+			if (_element === undefined) {
 				return false;
 			}
 
-			this.elements[i] = _this.initCarousell(element);
+			this.elements[i] = _this.initCarousell(_element);
 		}
 
 		return _this;
