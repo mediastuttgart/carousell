@@ -1,6 +1,6 @@
 {
     "name": "Carousell",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "title": "Carousell",
     "description": "A simple javascript plugin for creating a touch based carousel.",
     "keywords": [

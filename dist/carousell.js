@@ -79,7 +79,8 @@ function defineCarousell (EventEmitter) {
 
 		_this.options = extend({
 			animationSpeed: 0.5,
-			showBullets: false
+			showBullets: false,
+			loopRewind: false
 		}, _this.options);
 
 		_this.options.hammer = extend({
@@ -97,7 +98,17 @@ function defineCarousell (EventEmitter) {
 			_this.on('ready', callback);
 		}
 
-		_this.initCarousell();
+		for (var i = 0, elementLength = _this.elements.length; i < elementLength; i++) {
+			var _element = this.elements[i].getElementsByTagName('ul')[0] || this.elements[i].getElementsByTagName('ol')[0];
+
+			if (_element === undefined) {
+				return false;
+			}
+
+			this.elements[i] = _this.initCarousell(_element);
+		}
+
+		return _this;
 	}
 
 	/* Event emitter */
@@ -106,43 +117,37 @@ function defineCarousell (EventEmitter) {
 	// -------------------------- methods -------------------------- //
 
 	/* Init carousel */
-	Carousell.prototype.initCarousell = function () {
+	Carousell.prototype.initCarousell = function (element) {
 		var _this = this;
 
-		for (var i = 0, elementLength = _this.elements.length; i < elementLength; i++) {
-			var element = this.elements[i].getElementsByTagName('ul')[0] || this.elements[i].getElementsByTagName('ol')[0];
+		element.panes = [];
 
-			if (element === undefined) {
-				return false;
+		var children    = element.children;
+		var childLength = children.length;
+
+		for (var j = 0; j < childLength; j++) {
+			if (children[j].tagName === 'LI') {
+				element.panes[j] = children[j];
 			}
-
-			element.panes = [];
-
-			var children    = element.children;
-			var childLength = children.length;
-
-			for (var j = 0; j < childLength; j++) {
-				if (children[j].tagName === 'LI') {
-					element.panes[j] = children[j];
-				}
-			}
-
-			if (element.panes.length === 0) {
-				return false;
-			}
-
-			element.paneWidth   = 0;
-			element.paneCount   = element.panes.length;
-			element.currentPane = 0;
-			element.offset      = 0;
-			element.classNames  = element.className;
-
-			_this.setDimensions(element);
-			_this.bindEvents(element);
-			_this.showPane(element.currentPane, element, false, true);
-
-			_this.onReady(element);
 		}
+
+		if (element.panes.length === 0) {
+			return false;
+		}
+
+		element.paneWidth   = 0;
+		element.paneCount   = element.panes.length;
+		element.currentPane = 0;
+		element.offset      = 0;
+		element.classNames  = element.className;
+
+		_this.setDimensions(element);
+		_this.bindEvents(element);
+		_this.showPane(element.currentPane, element, false, true, true);
+
+		_this.onReady(element);
+
+		return element;
 	};
 
 	/* Set dimensions */
@@ -162,7 +167,21 @@ function defineCarousell (EventEmitter) {
 
 		eventie.bind(window, 'resize', function () {
 			_this.setDimensions(element);
-			_this.showPane(element.currentPane, element, false, false);
+			_this.showPane(element.currentPane, element, false, false, false);
+		});
+
+		_this.on('prev', function () {
+			_this.prev(element);
+		});
+
+		_this.on('next', function () {
+			_this.next(element);
+		});
+
+		_this.on('showPane', function (index) {
+			if (index !== _this.currentPane) {
+				_this.showPane(index, element, true, true, true);
+			}
 		});
 
 		element.hammer = new Hammer(element, _this.options.hammer);
@@ -181,18 +200,18 @@ function defineCarousell (EventEmitter) {
 	};
 
 	/* Show pane */
-	Carousell.prototype.showPane = function (index, element, animate, events) {
+	Carousell.prototype.showPane = function (index, element, animate, events, paneChange) {
 		var _this       = this;
 		var currentPane = Math.max(0, Math.min(index, element.paneCount - 1));
 		var offset      = -((100 / element.paneCount) * currentPane);
 
 		element.currentPane = currentPane;
 
-		_this.setOffset(offset, element, animate, events);
+		_this.setOffset(offset, element, animate, events, paneChange);
 	};
 
 	/* Set offset*/
-	Carousell.prototype.setOffset = function (percent, element, animate, events) {
+	Carousell.prototype.setOffset = function (percent, element, animate, events, paneChange) {
 		var _this    = this;
 		var offset   = ((element.paneWidth * element.paneCount) / 100) * percent;
 		var duration = animate ? _this.options.animationSpeed : 0;
@@ -202,7 +221,7 @@ function defineCarousell (EventEmitter) {
 			ease: Expo.easeOut,
 			onComplete: function () {
 				if (events) {
-					_this.onAnimationComplete(element);
+					_this.onAnimationComplete(element, paneChange);
 				}
 			}
 		});
@@ -253,7 +272,7 @@ function defineCarousell (EventEmitter) {
 					}
 				}
 				else {
-					_this.showPane(element.currentPane, element, true, false);
+					_this.showPane(element.currentPane, element, true, false, false);
 				}
 			break;
 		}
@@ -264,10 +283,13 @@ function defineCarousell (EventEmitter) {
 		var _this = this;
 
 		if (element.currentPane !== 0) {
-			_this.showPane(element.currentPane - 1, element, true, true);
+			_this.showPane(element.currentPane - 1, element, true, true, true);
+		}
+		else if (_this.options.loopRewind) {
+			_this.showPane(element.paneCount - 1, element, true, true, true);
 		}
 		else {
-			_this.showPane(element.currentPane, element, true, false);
+			_this.showPane(element.currentPane, element, true, true, false);
 		}
 	};
 
@@ -276,10 +298,13 @@ function defineCarousell (EventEmitter) {
 		var _this = this;
 
 		if ((element.currentPane + 1) !== element.paneCount) {
-			_this.showPane(element.currentPane + 1, element, true, true);
+			_this.showPane(element.currentPane + 1, element, true, true, true);
+		}
+		else if (_this.options.loopRewind) {
+			_this.showPane(element.currentPane - (element.paneCount - 1), element, true, true, true);
 		}
 		else {
-			_this.showPane(element.currentPane, element, true, false);
+			_this.showPane(element.currentPane, element, true, true, false);
 		}
 	};
 
@@ -295,13 +320,13 @@ function defineCarousell (EventEmitter) {
 	};
 
 	/* Animation complete*/
-	Carousell.prototype.onAnimationComplete = function (element) {
+	Carousell.prototype.onAnimationComplete = function (element, paneChange) {
 		var _this = this;
 
 		element.className = element.classNames;
 
 		setTimeout(function () {
-			_this.emit('animationComplete', _this, element);
+			_this.emit('animationComplete', _this, element, paneChange);
 		});
 	};
 

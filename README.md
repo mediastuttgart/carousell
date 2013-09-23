@@ -4,7 +4,7 @@ A simple javascript plugin for creating a touch based carousel.
 
 ## Latest version
 
-0.1.0
+0.2.0
 
 ## Install
 
